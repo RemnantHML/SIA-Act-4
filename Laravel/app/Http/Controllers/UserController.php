@@ -16,8 +16,7 @@ return response()->json($users, 200);
 * Return the list of users
 * @return Illuminate\Http\Response
 */
-public function index()
-{
+public function index(){
 $users = User::all();
 return $this->successResponse($users);
 }
@@ -104,6 +103,7 @@ public function delete($id)
 {
 $user = User::findOrFail($id);
 $user->delete();
+
 
 
 return $this->successResponse($user);
