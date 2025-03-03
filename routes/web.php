@@ -4,9 +4,8 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
-
+$router->get('/users', 'UserController@getUsers');
 $router->group(['prefix' => 'api'], function () use ($router) {
     $router->get('/users', 'UserController@getUsers'); // Get all users
-    $router->post('/users', 'UserController@add'); // Create a user
-
+    
 });
