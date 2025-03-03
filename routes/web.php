@@ -19,7 +19,8 @@
 
  $router->get('/users',['uses' => 'UserController@getUsers']);
  $router->group(['prefix' => 'api'], function () use ($router) {
-  
+
   $router->get('/users',['uses' => 'UserController@getUsers']);});
+$rounter->post('/users', 'Usercontroller@add');
 
  
