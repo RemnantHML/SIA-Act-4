@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class User extends Model{
     protected $table = 'tbluser';
     protected $fillable = [
-        'adrian123','adrian123'
+        'username','password'
     ];
 }
 
