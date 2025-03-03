@@ -1,15 +1,5 @@
 <?php
 
-namespace App;
-
-use Illuminate\Database\Eloquent\Model;
-class User extends Model{
-    protected $table = 'tbluser';
-    protected $fillable = [
-        'adrian123','adrian123'
-    ];
-}
-
 require_once __DIR__.'/../vendor/autoload.php';
 
 (new Laravel\Lumen\Bootstrap\LoadEnvironmentVariables(

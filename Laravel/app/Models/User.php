@@ -2,6 +2,16 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Model;
+ class User extends Model{
+   protected $table = 'tbluser';
+// column sa table
+   protected $fillable = [
+     'username', 'password'
+   ];
+}
+
+
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
