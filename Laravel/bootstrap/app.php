@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Models;
-use App\Models\User;
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 class User extends Model{
     protected $table = 'tbluser';
     protected $fillable = [
-        'username','password'
+        'adrian123','adrian123'
     ];
 }
 
