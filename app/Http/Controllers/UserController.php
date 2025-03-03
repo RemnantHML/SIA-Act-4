@@ -37,7 +37,9 @@ class UserController extends Controller
         ];
 
         $this->validate($request, $rules);
-        $user = user::create($request->all());
+
+        $user = User::create($request->all());
+        
         return $this->successResponse($user, Response::HTTP_CREATED);
 
 
