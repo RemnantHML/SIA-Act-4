@@ -1,10 +1,10 @@
 <?php
- namespace App;
- use Illuminate\Database\Eloquent\Model;
+namespace App;
+use Illuminate\Database\Eloquent\Model;
  class User extends Model{
-   protected $table = 'tbluser';
+     protected $table = 'tbluser';
 // column sa table
-   protected $fillable = [
+     protected $fillable = [
      'username', 'password'
    ];
 }
