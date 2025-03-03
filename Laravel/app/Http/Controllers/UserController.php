@@ -1,10 +1,13 @@
 <?php
 namespace App\Http\Controllers;
+
+use Illuminate\Http\Response;
 use Illuminate\Http\Request;
-use App\User;
+use App\Models\User;
+
 Class UserController extends Controller {
     private $request;
-    public function __construct(Request $request){
+    public function _construct(Request $request){
         $this->request = $request;
     }
     public function getUsers(){
