@@ -12,12 +12,9 @@
 | and give it the Closure to call when that URI is requested.
 |
 */
-/*
+
 $router->get('/', function () use ($router) {
 return $router->app->version();
 });
-*/
-Route::get('/', function () {
-    return view('welcome');
-});
+
 $router->get('/users',['uses' => 'UserController@getUsers']);
