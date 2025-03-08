@@ -44,4 +44,28 @@ class UserController extends Controller
 
 
     }
+    public function updateUser(Request $request)
+    {
+        // Get username and password from query parameters
+        $username = $request->query('username');
+        $password = $request->query('password');
+
+        // Validate input
+        if (!$username || !$password) {
+            return response()->json(['error' => 'Username and password are required'], 400);
+        }
+
+        // Find the user by username
+        $user = User::where('username', $username)->first();
+
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
+        // Update user password
+        $user->password = bcrypt($password); // Hash password
+        $user->save();
+
+        return response()->json(['message' => 'User updated successfully'], 200);
+    }
 }
