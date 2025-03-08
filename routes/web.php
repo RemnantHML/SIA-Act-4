@@ -6,6 +6,6 @@ $router->get('/', function () use ($router) {
 });
 $router->post('/users', 'UserController@getUsers');
 $router->group(['prefix' => 'api'], function () use ($router) {
-$router->get('/users', 'UserController@getUsers'); // Get all users
-$router->get('/users/update', 'UserController@updateUser');
+$router->post('/users', 'UserController@getUsers'); // Get all users
+$router->post('/users/update', 'UserController@updateUser');
 });
