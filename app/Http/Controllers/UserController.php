@@ -20,8 +20,8 @@ class UserController extends Controller
         
         $users = DB::connection('mysql')
         ->select("Select * from tbl_user");
-       $users = User::all();
-       return response()->json($users, 200);
+        //$users = User::all();  before 3a
+       // return response()->json($users, 200);
        return $this->successResponse($users);
     }
 
@@ -44,28 +44,42 @@ class UserController extends Controller
 
 
     }
-    public function updateUser(Request $request)
-    {
-        // Get username and password from query parameters
-        $username = $request->query('username');
-        $password = $request->query('password');
-
+    public function updateUser(Request $request) {
+        // Get username, new username, and password from request body
+        $username = $request->input('username'); // Existing username
+        $newUsername = $request->input('new_username'); // New username (optional)
+        $password = $request->input('password'); // New password (optional)
+    
         // Validate input
-        if (!$username || !$password) {
-            return response()->json(['error' => 'Username and password are required'], 400);
+        if (!$username || (!$newUsername && !$password)) {
+            return response()->json(['error' => 'Provide username and at least one field to update'], 400);
         }
-
-        // Find the user by username
+    
+        // Find the user by the current username
         $user = User::where('username', $username)->first();
-
+    
         if (!$user) {
             return response()->json(['error' => 'User not found'], 404);
         }
-
-        // Update user password
-        $user->password = bcrypt($password); // Hash password
-        $user->save();
-
+    
+        // Check if new username is taken
+        if ($newUsername && User::where('username', $newUsername)->exists()) {
+            return response()->json(['error' => 'New username already taken'], 400);
+        }
+    
+        // Update username if provided
+        if ($newUsername) {
+            $user->username = $newUsername;
+        }
+    
+        // Update password if provided
+        if ($password) {
+            $user->password = bcrypt($password); // Hash password
+        }
+    
+        $user->save(); // Save changes
+    
         return response()->json(['message' => 'User updated successfully'], 200);
     }
+    
 }
