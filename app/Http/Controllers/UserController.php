@@ -22,7 +22,7 @@ Class UserController extends Controller {
         
 
         $users = DB::connection('mysql')
-        ->select("Select * from tbluser");
+        ->select("Select * from tbl_user");
 
         //return response()->json($users, 200);
 
