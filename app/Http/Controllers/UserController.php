@@ -80,6 +80,10 @@ class UserController extends Controller
         $user->save(); // Save changes
     
         return response()->json(['message' => 'User updated successfully'], 200);
+        
+        $user = User::where('username', $username)->first();
+        dd($user);
+
     }
     
 }
