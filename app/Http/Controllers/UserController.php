@@ -80,7 +80,7 @@ Class UserController extends Controller {
 
         $user->fill($request->all());
 
-        if ($user->isClean()){
+        if ($user->isDirty()){
             return $this->errorResponse('At least one value must change', Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
