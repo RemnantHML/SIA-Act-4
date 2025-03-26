@@ -16,70 +16,71 @@ class UserController extends Controller
     public function __construct(Request $request){
         $this->request = $request;
     }
+
+    // Fetch all users
     public function getUsers(){
-        
-        $users = DB::connection('mysql')
-        ->select("Select * from tbl_user");
-        //$users = User::all();  before 3a
-       // return response()->json($users, 200);
-       return $this->successResponse($users);
+        $users = DB::connection('mysql')->select("SELECT * FROM tbl_user");
+        return $this->successResponse($users);
     }
 
+    // Fetch users using Eloquent
     public function index(){
         $users = User::all();
         return $this->successResponse($users);
     }
-    public function add(Request $request ){
+
+    // Add a new user
+    public function add(Request $request) {
         $rules = [
-            'username' => 'required|max:20',
-            'password' => 'required|max:20',
-        
+            'username' => 'required|max:20|unique:users,username',
+            'password' => 'required|max:255',
         ];
 
         $this->validate($request, $rules);
 
-        $user = User::create($request->all());
-        
+        // Hash password before storing
+        $user = User::create([
+            'username' => $request->username,
+            'password' => bcrypt($request->password),
+        ]);
+
         return $this->successResponse($user, Response::HTTP_CREATED);
-
-
     }
+
+    // Update an existing user
     public function updateUser(Request $request) {
-        // Get username, new username, and password from request body
         $username = $request->input('username'); // Existing username
         $newUsername = $request->input('new_username'); // New username (optional)
         $password = $request->input('password'); // New password (optional)
-    
-        // Validate input
+
+        // Validate request
         if (!$username || (!$newUsername && !$password)) {
             return response()->json(['error' => 'Provide username and at least one field to update'], 400);
         }
-    
-        // Find the user by the current username
+
+        // Find user by current username
         $user = User::where('username', $username)->first();
-    
+
         if (!$user) {
             return response()->json(['error' => 'User not found'], 404);
         }
-    
-        // Check if new username is taken
+
+        // Check if the new username already exists
         if ($newUsername && User::where('username', $newUsername)->exists()) {
             return response()->json(['error' => 'New username already taken'], 400);
         }
-    
-        // Update username if provided
+
+        // Update username and password
         if ($newUsername) {
             $user->username = $newUsername;
         }
-    
-        // Update password if provided
+
         if ($password) {
             $user->password = bcrypt($password); // Hash password
         }
-    
-        $user->save(); // Save changes
-    
-        return response()->json(['message' => 'User updated successfully'], 200);
+
+        $user->save(); // Save changes to the database
+
+        return response()->json(['message' => 'User updated successfully', 'updated_user' => $user], 200);
     }
-    
 }
